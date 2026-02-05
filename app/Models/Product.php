@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
+    use HasFactory;
     protected $fillable = ['agency_id', 'client_id', 'master_sku', 'name', 'dimensions', 'weight'];
 
     public function agency()

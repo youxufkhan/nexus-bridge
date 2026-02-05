@@ -17,6 +17,11 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::resource('integrations', \App\Http\Controllers\Dashboard\IntegrationController::class);
     Route::resource('users', \App\Http\Controllers\Dashboard\UserController::class);
     Route::resource('products', \App\Http\Controllers\Dashboard\ProductController::class);
+    Route::resource('warehouses', \App\Http\Controllers\Dashboard\WarehouseController::class);
+
+    Route::get('inventory', [\App\Http\Controllers\Dashboard\InventoryController::class , 'index'])->name('inventories.index');
+    Route::get('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class , 'adjust'])->name('inventories.adjust');
+    Route::post('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class , 'update'])->name('inventories.update');
 });
 
 // Superadmin Routes

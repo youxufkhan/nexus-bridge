@@ -102,6 +102,21 @@
                     </svg>
                     Catalog
                 </a>
+                <a href="{{ route('dashboard.warehouses.index') }}"
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.warehouses.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    Warehouses
+                </a>
+                <a href="{{ route('dashboard.inventories.index') }}"
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    Inventory
+                </a>
                 <a href="{{ route('dashboard.integrations.index') }}"
                     class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.integrations.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

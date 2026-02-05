@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Inventory extends Model
 {
-    protected $fillable = ['product_id', 'warehouse_id', 'quantity_on_hand', 'quantity_reserved'];
+    use HasFactory;
+    protected $fillable = ['agency_id', 'product_id', 'warehouse_id', 'quantity_on_hand', 'quantity_reserved'];
 
     public function product()
     {

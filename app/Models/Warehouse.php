@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Inventory;
 
 class Warehouse extends Model
 {
+    use HasFactory;
     protected $fillable = ['agency_id', 'name', 'location_code', 'address'];
 
     public function agency()
