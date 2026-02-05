@@ -23,6 +23,12 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::get('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class, 'adjust'])->name('inventories.adjust');
     Route::post('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class, 'update'])->name('inventories.update');
 
+    // Inventory Adjustment Wizard
+    Route::get('inventory-wizard', [\App\Http\Controllers\Dashboard\InventoryController::class, 'wizard'])->name('inventories.wizard');
+    Route::get('inventory-wizard/search-products', [\App\Http\Controllers\Dashboard\InventoryController::class, 'searchProducts'])->name('inventories.search-products');
+    Route::get('inventory-wizard/fetch-inventory', [\App\Http\Controllers\Dashboard\InventoryController::class, 'fetchInventory'])->name('inventories.fetch-inventory');
+    Route::post('inventory-wizard/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class, 'processAdjustment'])->name('inventories.process-adjustment');
+
     Route::post('integrations/{connection}/sync-orders', [\App\Http\Controllers\Dashboard\IntegrationController::class, 'syncOrders'])->name('integrations.sync-orders');
     Route::post('integrations/{connection}/sync-products', [\App\Http\Controllers\Dashboard\IntegrationController::class, 'syncProducts'])->name('integrations.sync-products');
 });

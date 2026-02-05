@@ -172,7 +172,7 @@
                     <span x-show="!sidebarCollapsed || mobileMenuOpen">Warehouses</span>
                 </a>
                 <a href="{{ route('dashboard.inventories.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.*') && !request()->routeIs('dashboard.inventories.wizard') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
                     title="Inventory">
                     <svg class="w-5 h-5 flex-shrink-0"
                         :class="(sidebarCollapsed && !mobileMenuOpen) ? 'mx-auto' : 'mr-3'" fill="none"
@@ -180,6 +180,17 @@
                         <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                     <span x-show="!sidebarCollapsed || mobileMenuOpen">Inventory</span>
+                </a>
+                <a href="{{ route('dashboard.inventories.wizard') }}"
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.wizard') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Adjust Stock">
+                    <svg class="w-5 h-5 flex-shrink-0"
+                        :class="(sidebarCollapsed && !mobileMenuOpen) ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                    </svg>
+                    <span x-show="!sidebarCollapsed || mobileMenuOpen">Adjust Stock</span>
                 </a>
                 <a href="{{ route('dashboard.integrations.index') }}"
                     class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.integrations.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
