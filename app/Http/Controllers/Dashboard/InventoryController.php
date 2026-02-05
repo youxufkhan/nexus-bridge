@@ -57,20 +57,20 @@ class InventoryController extends Controller
                 ->firstOrFail();
 
             Inventory::updateOrCreate(
-            [
-                'agency_id' => $agencyId,
-                'product_id' => $product->id,
-                'warehouse_id' => $warehouse->id,
-            ],
-            [
-                'quantity_on_hand' => $adjustment['quantity_on_hand'],
-                'quantity_reserved' => 0, // Default for manual adjustment
-            ]
+                [
+                    'agency_id' => $agencyId,
+                    'product_id' => $product->id,
+                    'warehouse_id' => $warehouse->id,
+                ],
+                [
+                    'quantity_on_hand' => $adjustment['quantity_on_hand'],
+                    'quantity_reserved' => 0, // Default for manual adjustment
+                ]
             );
         }
 
         return redirect()->route('dashboard.inventories.index')
-            ->with('success', 'Inventory levels adjusted for ' . $product->name);
+            ->with('success', 'Inventory levels adjusted for '.$product->name);
     }
 
     protected function authorizeProduct(Product $product): void

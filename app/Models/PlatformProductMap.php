@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlatformProductMap extends Model
 {
-    protected $fillable = ['product_id', 'integration_connection_id', 'external_id', 'external_sku'];
+    protected $fillable = ['agency_id', 'product_id', 'integration_connection_id', 'external_id', 'external_sku'];
 
     public function product()
     {
@@ -17,5 +17,5 @@ class PlatformProductMap extends Model
     {
         return $this->belongsTo(IntegrationConnection::class);
     }
-//
+    //
 }

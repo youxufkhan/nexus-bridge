@@ -19,9 +19,12 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::resource('products', \App\Http\Controllers\Dashboard\ProductController::class);
     Route::resource('warehouses', \App\Http\Controllers\Dashboard\WarehouseController::class);
 
-    Route::get('inventory', [\App\Http\Controllers\Dashboard\InventoryController::class , 'index'])->name('inventories.index');
-    Route::get('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class , 'adjust'])->name('inventories.adjust');
-    Route::post('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class , 'update'])->name('inventories.update');
+    Route::get('inventory', [\App\Http\Controllers\Dashboard\InventoryController::class, 'index'])->name('inventories.index');
+    Route::get('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class, 'adjust'])->name('inventories.adjust');
+    Route::post('inventory/{product}/adjust', [\App\Http\Controllers\Dashboard\InventoryController::class, 'update'])->name('inventories.update');
+
+    Route::post('integrations/{connection}/sync-orders', [\App\Http\Controllers\Dashboard\IntegrationController::class, 'syncOrders'])->name('integrations.sync-orders');
+    Route::post('integrations/{connection}/sync-products', [\App\Http\Controllers\Dashboard\IntegrationController::class, 'syncProducts'])->name('integrations.sync-products');
 });
 
 // Superadmin Routes
@@ -30,9 +33,9 @@ Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->name('admin.')
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class , 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class , 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

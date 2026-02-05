@@ -18,7 +18,7 @@ class WarehouseFactory extends Factory
     {
         return [
             'agency_id' => \App\Models\Agency::factory(),
-            'name' => $this->faker->company() . ' Warehouse',
+            'name' => $this->faker->company().' Warehouse',
             'location_code' => $this->faker->unique()->bothify('WH-####'),
             'address' => [
                 'street' => $this->faker->streetAddress(),

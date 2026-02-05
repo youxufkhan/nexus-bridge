@@ -12,11 +12,10 @@ class StandardOrder
         public Carbon $placedAt,
         public array $customer, // ['name' => string, 'email' => string, 'phone' => ?string]
         public array $shippingAddress, // ['address1', 'city', 'state', 'zip', 'country']
-        public array $items, // Array of StandardOrderItem (can be array for now)
+        /** @var \App\Services\Integrations\DTO\StandardOrderItem[] */
+        public array $items,
         public array $financials // ['total' => float, 'currency' => string]
-        )
-    {
-    }
+    ) {}
 
     public static function make(array $data): self
     {
@@ -28,6 +27,6 @@ class StandardOrder
             $data['shippingAddress'],
             $data['items'] ?? [],
             $data['financials']
-            );
+        );
     }
 }

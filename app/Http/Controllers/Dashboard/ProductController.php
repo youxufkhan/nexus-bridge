@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -16,5 +15,16 @@ class ProductController extends Controller
             ->paginate(20);
 
         return view('products.index', compact('products'));
+    }
+
+    public function show(\App\Models\Product $product): \Illuminate\View\View
+    {
+        if ($product->agency_id !== auth()->user()->agency_id) {
+            abort(403);
+        }
+
+        $product->load(['client', 'platformProductMaps', 'inventories.warehouse']);
+
+        return view('products.show', compact('product'));
     }
 }

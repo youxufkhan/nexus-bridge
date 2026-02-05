@@ -20,6 +20,7 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>
             (function () {
                 try {
@@ -54,84 +55,111 @@
 </head>
 
 <body class="h-full antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
-    <div class="flex min-h-screen">
+    <div x-data="{ 
+        sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
+        toggleSidebar() {
+            this.sidebarCollapsed = !this.sidebarCollapsed;
+            localStorage.setItem('sidebarCollapsed', this.sidebarCollapsed);
+        }
+    }" class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside
-            class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col fixed h-full z-50">
-            <div class="p-8 pb-4">
-                <span
+        <aside :class="sidebarCollapsed ? 'w-20' : 'w-64'"
+            class="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col fixed h-full z-50 transition-all duration-300 ease-in-out">
+            <div class="p-6 pb-4 flex items-center justify-between">
+                <span x-show="!sidebarCollapsed" x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     class="text-2xl font-black bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent tracking-tighter">NexusBridge</span>
+                <span x-show="sidebarCollapsed"
+                    class="text-xl font-black bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent tracking-tighter mx-auto">NB</span>
             </div>
 
-            <nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
+            <nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4 overflow-x-hidden">
                 @can('access-admin')
-                <div class="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Platform</div>
+                <div x-show="!sidebarCollapsed"
+                    class="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Platform</div>
+                <div x-show="sidebarCollapsed" class="h-8"></div>
                 <a href="{{ route('admin.agencies.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('admin.agencies.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2.5">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('admin.agencies.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="SaaS Tenants">
+                    <svg class="w-5 h-5 flex-shrink-0 text-red-500" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path
                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
-                    SaaS Tenants
+                    <span x-show="!sidebarCollapsed">SaaS Tenants</span>
                 </a>
                 <div class="my-4 border-t border-slate-100 dark:border-slate-800"></div>
                 @endcan
 
-                <div class="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Agency Hub</div>
+                <div x-show="!sidebarCollapsed"
+                    class="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Agency Hub</div>
                 <a href="{{ route('dashboard.clients.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.clients.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.clients.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Portfolios">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path
                             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    Portfolios
+                    <span x-show="!sidebarCollapsed">Portfolios</span>
                 </a>
                 <a href="{{ route('dashboard.orders.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.orders.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.orders.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Live Orders">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
-                    Live Orders
+                    <span x-show="!sidebarCollapsed">Live Orders</span>
                 </a>
                 <a href="{{ route('dashboard.products.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.products.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.products.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Catalog">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path
                             d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
-                    Catalog
+                    <span x-show="!sidebarCollapsed">Catalog</span>
                 </a>
                 <a href="{{ route('dashboard.warehouses.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.warehouses.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.warehouses.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Warehouses">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path
                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
-                    Warehouses
+                    <span x-show="!sidebarCollapsed">Warehouses</span>
                 </a>
                 <a href="{{ route('dashboard.inventories.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.inventories.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Inventory">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
-                    Inventory
+                    <span x-show="!sidebarCollapsed">Inventory</span>
                 </a>
                 <a href="{{ route('dashboard.integrations.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.integrations.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.integrations.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Connectivity">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path
                             d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
                     </svg>
-                    Connectivity
+                    <span x-show="!sidebarCollapsed">Connectivity</span>
                 </a>
                 <a href="{{ route('dashboard.users.index') }}"
-                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.users.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}">
-                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    class="flex items-center px-4 py-2.5 text-sm font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all {{ request()->routeIs('dashboard.users.*') ? 'sidebar-active' : 'text-slate-600 dark:text-slate-400' }}"
+                    title="Team Members">
+                    <svg class="w-5 h-5 flex-shrink-0" :class="sidebarCollapsed ? 'mx-auto' : 'mr-3'" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path
                             d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
-                    Team Members
+                    <span x-show="!sidebarCollapsed">Team Members</span>
                 </a>
             </nav>
 
@@ -147,7 +175,7 @@
                             class="h-10 w-10 flex-shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30 ring-2 ring-white dark:ring-slate-700">
                             {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
                         </div>
-                        <div class="ml-3 flex-1 min-w-0 text-left line-clamp-1">
+                        <div x-show="!sidebarCollapsed" class="ml-3 flex-1 min-w-0 text-left line-clamp-1">
                             <p
                                 class="text-xs font-black text-slate-900 dark:text-white truncate uppercase tracking-tighter">
                                 {{ Auth::user()->name ?? 'Account' }}</p>
@@ -155,14 +183,10 @@
                         </div>
                     </div>
 
-                    <!-- Hover Action Menu (Attached with no gap by using a transparent bridge) -->
+                    <!-- Hover Action Menu -->
                     <div class="absolute bottom-full left-0 w-full pb-2 hidden group-hover:block transition-all z-50">
                         <div
                             class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-2 ring-1 ring-black/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
-                            <div class="px-4 py-2 border-b border-slate-100 dark:border-slate-800/50 mb-1">
-                                <p class="text-[9px] font-black text-indigo-500 uppercase tracking-widest">{{
-                                    Auth::user()->role ?? 'Team Member' }}</p>
-                            </div>
                             <a href="{{ route('profile.edit') }}"
                                 class="flex items-center px-4 py-2.5 text-[12px] font-bold text-slate-600 dark:text-slate-300 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 transition-colors">
                                 <svg class="w-4 h-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -170,7 +194,7 @@
                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                     <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                Account Settings
+                                Account settings
                             </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -190,14 +214,26 @@
         </aside>
 
         <!-- Main Content -->
-        <main
-            class="flex-1 ml-64 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-y-auto">
+        <main :class="sidebarCollapsed ? 'ml-20' : 'ml-64'"
+            class="flex-1 min-h-screen bg-slate-50 dark:bg-slate-950 transition-all duration-300 ease-in-out overflow-y-auto">
             <header
-                class="h-20 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-10 sticky top-0 z-40">
-                <div>
-                    <h2 class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.3em] mb-1">Nexus / SaaS</h2>
-                    <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">@yield('header',
-                        'Dashboard Content')</h1>
+                class="h-20 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-10 sticky top-0 z-40 transition-all duration-300">
+                <div class="flex items-center">
+                    <button @click="toggleSidebar()"
+                        class="mr-6 p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-indigo-500 transition-colors focus:outline-none ring-1 ring-slate-200 dark:ring-slate-700">
+                        <svg class="w-5 h-5 transition-transform duration-300"
+                            :class="sidebarCollapsed ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.3em] mb-1">Nexus / SaaS
+                        </h2>
+                        <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">@yield('header',
+                            'Dashboard Content')</h1>
+                    </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     @yield('actions')

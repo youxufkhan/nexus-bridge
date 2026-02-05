@@ -2,16 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Jobs\FetchOrdersJob;
 use App\Models\IntegrationConnection;
-use App\Models\Order;
-use App\Services\Integrations\IntegrationManager;
 use App\Services\Integrations\Contracts\IntegrationAdapterInterface;
 use App\Services\Integrations\DTO\StandardOrder;
+use App\Services\Integrations\IntegrationManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
-use Carbon\Carbon;
+use Tests\TestCase;
 
 class FetchOrdersJobTest extends TestCase
 {
@@ -30,11 +28,11 @@ class FetchOrdersJobTest extends TestCase
             'ORD-123',
             'shipped',
             now(),
-        ['name' => 'John Doe'],
-        ['address' => '123 Main St'],
-        [],
-        ['total' => 100.00]
-            );
+            ['name' => 'John Doe'],
+            ['address' => '123 Main St'],
+            [],
+            ['total' => 100.00]
+        );
 
         $adapterMock = Mockery::mock(IntegrationAdapterInterface::class);
         $adapterMock->shouldReceive('fetchOrders')
@@ -44,7 +42,7 @@ class FetchOrdersJobTest extends TestCase
         // 3. Mock Manager
         $managerMock = Mockery::mock(IntegrationManager::class);
         $managerMock->shouldReceive('make')
-            ->with(Mockery::on(fn($arg) => $arg->id === $connection->id))
+            ->with(Mockery::on(fn ($arg) => $arg->id === $connection->id))
             ->once()
             ->andReturn($adapterMock);
 

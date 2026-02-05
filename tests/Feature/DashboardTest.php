@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\Agency;
 use App\Models\Client;
-use App\Models\Order;
-use App\Models\User;
 use App\Models\IntegrationConnection;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
@@ -33,7 +32,7 @@ class DashboardTest extends TestCase
         $client = Client::factory()->create(['agency_id' => $agency->id]);
         $connection = IntegrationConnection::factory()->create([
             'agency_id' => $agency->id,
-            'client_id' => $client->id
+            'client_id' => $client->id,
         ]);
 
         $order = \App\Models\Order::create([
@@ -43,7 +42,7 @@ class DashboardTest extends TestCase
             'external_order_id' => 'ORD-TEST',
             'status' => 'pending',
             'financials' => ['total' => 100],
-            'customer_data' => ['name' => 'Test User']
+            'customer_data' => ['name' => 'Test User'],
         ]);
 
         $response = $this->actingAs($user)->get(route('dashboard.orders.index'));

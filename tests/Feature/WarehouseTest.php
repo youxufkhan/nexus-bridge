@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class WarehouseTest extends TestCase
@@ -30,7 +29,7 @@ class WarehouseTest extends TestCase
         $response = $this->actingAs($user)->post(route('dashboard.warehouses.store'), [
             'name' => 'New Hub',
             'location_code' => 'NH-01',
-            'address' => ['city' => 'New York']
+            'address' => ['city' => 'New York'],
         ]);
 
         $response->assertRedirect(route('dashboard.warehouses.index'));

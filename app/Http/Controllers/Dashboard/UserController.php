@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -11,6 +10,7 @@ class UserController extends Controller
     {
         $agencyId = auth()->user()->agency_id;
         $users = \App\Models\User::where('agency_id', $agencyId)->get();
+
         return view('users.index', compact('users'));
     }
 

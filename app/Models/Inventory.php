@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
     use HasFactory;
+
     protected $fillable = ['agency_id', 'product_id', 'warehouse_id', 'quantity_on_hand', 'quantity_reserved'];
 
     public function product()
@@ -19,5 +20,5 @@ class Inventory extends Model
     {
         return $this->belongsTo(Warehouse::class);
     }
-//
+    //
 }

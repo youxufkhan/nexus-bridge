@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class InventoryTest extends TestCase
@@ -18,7 +17,7 @@ class InventoryTest extends TestCase
         $product = \App\Models\Product::factory()->create([
             'agency_id' => $agency->id,
             'client_id' => $client->id,
-            'name' => 'Test Product'
+            'name' => 'Test Product',
         ]);
 
         $response = $this->actingAs($user)->get(route('dashboard.inventories.index'));
@@ -35,23 +34,23 @@ class InventoryTest extends TestCase
         $client = \App\Models\Client::factory()->create(['agency_id' => $agency->id]);
         $product = \App\Models\Product::factory()->create([
             'agency_id' => $agency->id,
-            'client_id' => $client->id
+            'client_id' => $client->id,
         ]);
 
         $response = $this->actingAs($user)->post(route('dashboard.inventories.update', $product), [
             'adjustments' => [
                 [
                     'warehouse_id' => $warehouse->id,
-                    'quantity_on_hand' => 150
-                ]
-            ]
+                    'quantity_on_hand' => 150,
+                ],
+            ],
         ]);
 
         $response->assertRedirect(route('dashboard.inventories.index'));
         $this->assertDatabaseHas('inventories', [
             'product_id' => $product->id,
             'warehouse_id' => $warehouse->id,
-            'quantity_on_hand' => 150
+            'quantity_on_hand' => 150,
         ]);
     }
 }

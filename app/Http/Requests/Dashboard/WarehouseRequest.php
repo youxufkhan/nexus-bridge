@@ -23,7 +23,7 @@ class WarehouseRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'location_code' => 'required|string|max:100|unique:warehouses,location_code,' . ($this->warehouse ? $this->warehouse->id : 'NULL'),
+            'location_code' => 'required|string|max:100|unique:warehouses,location_code,'.($this->warehouse ? $this->warehouse->id : 'NULL'),
             'address.street' => 'nullable|string',
             'address.city' => 'nullable|string',
             'address.state' => 'nullable|string',

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use App\Jobs\FetchOrdersJob;
 use App\Models\Agency;
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
-use App\Jobs\FetchOrdersJob;
+use Tests\TestCase;
 
 class IntegrationTest extends TestCase
 {
@@ -25,8 +25,8 @@ class IntegrationTest extends TestCase
         $response = $this->actingAs($user)->post(route('dashboard.integrations.store'), [
             'client_id' => $client->id,
             'platform_type' => 'walmart',
-            'api_key' => 'secret-key-123',
             'client_id_key' => 'client-id-456',
+            'client_secret' => 'client-secret-789',
         ]);
 
         $response->assertRedirect(route('dashboard.integrations.index'));

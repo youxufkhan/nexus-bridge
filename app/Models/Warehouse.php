@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Inventory;
+use Illuminate\Database\Eloquent\Model;
 
 class Warehouse extends Model
 {
     use HasFactory;
+
     protected $fillable = ['agency_id', 'name', 'location_code', 'address'];
 
     public function agency()
@@ -24,5 +24,5 @@ class Warehouse extends Model
     {
         return $this->hasMany(Inventory::class);
     }
-//
+    //
 }

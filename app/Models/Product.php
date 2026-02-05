@@ -2,13 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['agency_id', 'client_id', 'master_sku', 'name', 'dimensions', 'weight'];
+
+    protected $fillable = [
+        'agency_id',
+        'client_id',
+        'master_sku',
+        'name',
+        'upc',
+        'gtin',
+        'base_price',
+        'base_currency',
+        'status',
+        'brand',
+        'category',
+        'description',
+        'dimensions',
+        'weight',
+    ];
 
     public function agency()
     {
@@ -34,5 +50,5 @@ class Product extends Model
     {
         return $this->hasMany(Inventory::class);
     }
-//
+    //
 }

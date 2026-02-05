@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-4xl">
     <div
-        class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden text-slate-200">
+        class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
         <div
             class="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
             <div>
@@ -46,27 +46,28 @@
                         <select id="platform_type" name="platform_type"
                             class="w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-4 text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all dark:text-white appearance-none">
                             <option value="walmart">Walmart Marketplace</option>
-                            <option value="amazon">Amazon Vendor Central</option>
-                            <option value="tiktok">TikTok Shop</option>
+                            <option value="amazon" disabled>Amazon Vendor Central (Upcoming)</option>
+                            <option value="tiktok" disabled>TikTok Shop (Upcoming)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="space-y-6">
                     <div class="space-y-2">
-                        <label for="api_key"
-                            class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Vaulted
-                            Access Token</label>
-                        <input type="password" name="api_key" id="api_key" required
-                            placeholder="Paste encrypted key here"
+                        <label for="client_id_key"
+                            class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Client
+                            ID</label>
+                        <input type="text" name="client_id_key" id="client_id_key" required
+                            placeholder="Walmart OAuth Client ID"
                             class="w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-4 text-sm font-mono focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all dark:text-white">
                     </div>
 
                     <div class="space-y-2">
-                        <label for="client_id_key"
-                            class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Network ID
-                            (Optional)</label>
-                        <input type="text" name="client_id_key" id="client_id_key" placeholder="Enter secondary ID"
+                        <label for="client_secret"
+                            class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Client
+                            Secret</label>
+                        <input type="password" name="client_secret" id="client_secret" required
+                            placeholder="Walmart OAuth Client Secret"
                             class="w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-4 text-sm font-mono focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all dark:text-white">
                     </div>
                 </div>

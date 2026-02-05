@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Models\IntegrationConnection;
-use App\Services\Integrations\IntegrationManager;
 use App\Services\Integrations\Adapters\WalmartAdapter;
+use App\Services\Integrations\IntegrationManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class IntegrationManagerTest extends TestCase
 {
@@ -19,10 +19,10 @@ class IntegrationManagerTest extends TestCase
             'credentials' => ['api_key' => '123'],
         ]);
 
-        $manager = new IntegrationManager();
+        $manager = new IntegrationManager;
         $adapter = $manager->make($connection);
 
-        $this->assertInstanceOf(WalmartAdapter::class , $adapter);
+        $this->assertInstanceOf(WalmartAdapter::class, $adapter);
     }
 
     public function test_it_throws_exception_for_unknown_platform()
@@ -33,7 +33,7 @@ class IntegrationManagerTest extends TestCase
             'platform_type' => 'unknown_platform',
         ]);
 
-        $manager = new IntegrationManager();
+        $manager = new IntegrationManager;
         $manager->make($connection);
     }
 }

@@ -19,11 +19,11 @@ class ProductFactory extends Factory
                 'length' => $this->faker->numberBetween(10, 100),
                 'width' => $this->faker->numberBetween(10, 100),
                 'height' => $this->faker->numberBetween(10, 100),
-                'unit' => 'cm'
+                'unit' => 'cm',
             ],
             'weight' => [
                 'value' => $this->faker->numberBetween(1, 10),
-                'unit' => 'kg'
+                'unit' => 'kg',
             ],
         ];
     }
