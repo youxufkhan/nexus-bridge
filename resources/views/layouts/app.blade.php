@@ -211,7 +211,7 @@
                 <!-- User Profile Section -->
                 <div class="relative group">
                     <!-- Trigger -->
-                    <div
+                    <div :class="(sidebarCollapsed && !mobileMenuOpen) ? 'justify-center' : ''"
                         class="flex items-center p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm group-hover:border-indigo-400 transition-all cursor-pointer">
                         <div
                             class="h-10 w-10 flex-shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30 ring-2 ring-white dark:ring-slate-700">
@@ -227,9 +227,9 @@
                     </div>
 
                     <!-- Hover Action Menu -->
-                    <div
-                        class="absolute bottom-full left-0 w-full pb-2 hidden lg:group-hover:block transition-all z-50">
-                        <div
+                    <div :class="(sidebarCollapsed && !mobileMenuOpen) ? 'left-full -ml-3 bottom-0' : 'bottom-full left-0 pb-2'"
+                        class="absolute hidden lg:group-hover:block transition-all z-50">
+                        <div :class="(sidebarCollapsed && !mobileMenuOpen) ? 'w-56 ml-3' : 'w-full'"
                             class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-2 ring-1 ring-black/5 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
                             <a href="{{ route('profile.edit') }}"
                                 class="flex items-center px-4 py-2.5 text-[12px] font-bold text-slate-600 dark:text-slate-300 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 transition-colors">
