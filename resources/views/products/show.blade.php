@@ -6,8 +6,9 @@
 <div class="space-y-8">
     <!-- Header Card -->
     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
-        <div class="flex items-start justify-between">
-            <div class="flex items-center space-x-6">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+            <div
+                class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 text-center sm:text-left">
                 <div
                     class="h-20 w-20 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
                     📦
@@ -28,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="text-center md:text-right">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">MSRP / Baseline</p>
                 <p class="text-3xl font-black text-slate-900 dark:text-white">{{ $product->base_currency ?? 'USD' }} {{
                     number_format($product->base_price ?? 0, 2) }}</p>
@@ -50,7 +51,7 @@
                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                 </div>
-                <div class="p-8 grid grid-cols-2 gap-8">
+                <div class="p-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div>
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Category /
                             Classification</p>
@@ -104,30 +105,33 @@
                             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                 </div>
-                <table class="w-full text-left">
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                        @forelse($product->inventories as $inventory)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20">
-                            <td class="px-8 py-4">
-                                <p class="text-sm font-black text-slate-900 dark:text-white">{{
-                                    $inventory->warehouse->name }}</p>
-                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight">{{
-                                    $inventory->warehouse->location }}</p>
-                            </td>
-                            <td class="px-8 py-4 text-right">
-                                <span class="text-lg font-black text-indigo-500 dark:text-indigo-400">{{
-                                    number_format($inventory->quantity) }}</span>
-                                <span class="text-[10px] font-black text-slate-400 uppercase ml-1">Units</span>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="2" class="px-8 py-10 text-center text-slate-400 italic text-sm">No inventory
-                                records found for this product.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left min-w-[400px]">
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            @forelse($product->inventories as $inventory)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                                <td class="px-8 py-4">
+                                    <p class="text-sm font-black text-slate-900 dark:text-white">{{
+                                        $inventory->warehouse->name }}</p>
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight">{{
+                                        $inventory->warehouse->location }}</p>
+                                </td>
+                                <td class="px-8 py-4 text-right">
+                                    <span class="text-lg font-black text-indigo-500 dark:text-indigo-400">{{
+                                        number_format($inventory->quantity) }}</span>
+                                    <span class="text-[10px] font-black text-slate-400 uppercase ml-1">Units</span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="2" class="px-8 py-10 text-center text-slate-400 italic text-sm">No
+                                    inventory
+                                    records found for this product.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

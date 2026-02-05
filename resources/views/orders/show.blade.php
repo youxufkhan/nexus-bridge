@@ -6,8 +6,9 @@
 <div class="space-y-8">
     <!-- Header Card -->
     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
-        <div class="flex items-start justify-between">
-            <div class="flex items-center space-x-6">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+            <div
+                class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 text-center sm:text-left">
                 <div
                     class="h-20 w-20 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
                     🛒
@@ -29,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="text-center md:text-right">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Settlement Total</p>
                 <p class="text-3xl font-black text-slate-900 dark:text-white">{{ $order->currency ?? 'USD' }} {{
                     number_format($order->total_amount ?? 0, 2) }}</p>
@@ -50,49 +51,57 @@
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                     </svg>
                 </div>
-                <table class="w-full text-left">
-                    <thead class="bg-slate-50/30 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800">
-                        <tr>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Product</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">SKU
-                            </th>
-                            <th
-                                class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">
-                                Qty</th>
-                            <th
-                                class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">
-                                Price</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                        @forelse($order->items as $item)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20">
-                            <td class="px-8 py-4">
-                                <p class="text-sm font-bold text-slate-900 dark:text-white">{{ $item->product_name }}
-                                </p>
-                            </td>
-                            <td class="px-8 py-4">
-                                <span class="text-[10px] font-black text-indigo-500 dark:text-indigo-400 font-mono">{{
-                                    $item->sku }}</span>
-                            </td>
-                            <td class="px-8 py-4 text-center">
-                                <span class="text-sm font-black text-slate-900 dark:text-white">{{ $item->quantity
-                                    }}</span>
-                            </td>
-                            <td class="px-8 py-4 text-right">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white">{{ $order->currency }} {{
-                                    number_format($item->unit_price, 2) }}</span>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="px-8 py-10 text-center text-slate-400 italic text-sm">No items found
-                                in this order manifest.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left min-w-[600px]">
+                        <thead
+                            class="bg-slate-50/30 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800">
+                            <tr>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                    Product</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                    SKU
+                                </th>
+                                <th
+                                    class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">
+                                    Qty</th>
+                                <th
+                                    class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">
+                                    Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            @forelse($order->items as $item)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20">
+                                <td class="px-8 py-4">
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">{{ $item->product_name
+                                        }}
+                                    </p>
+                                </td>
+                                <td class="px-8 py-4">
+                                    <span
+                                        class="text-[10px] font-black text-indigo-500 dark:text-indigo-400 font-mono">{{
+                                        $item->sku }}</span>
+                                </td>
+                                <td class="px-8 py-4 text-center">
+                                    <span class="text-sm font-black text-slate-900 dark:text-white">{{ $item->quantity
+                                        }}</span>
+                                </td>
+                                <td class="px-8 py-4 text-right">
+                                    <span class="text-sm font-bold text-slate-900 dark:text-white">{{ $order->currency
+                                        }} {{
+                                        number_format($item->unit_price, 2) }}</span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="px-8 py-10 text-center text-slate-400 italic text-sm">No items
+                                    found
+                                    in this order manifest.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Financial Summary -->

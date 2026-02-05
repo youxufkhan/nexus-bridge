@@ -32,35 +32,41 @@
     <!-- Listing -->
     <div
         class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
-        <table class="w-full text-left">
-            <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
-                <tr>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Node ID</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Business
-                        Identity</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Onboarding
-                        Date</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
-                        Operational Status</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                @foreach($agencies as $agency)
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
-                    <td class="px-8 py-5 text-sm font-mono text-slate-400">#{{ $agency->id }}</td>
-                    <td class="px-8 py-5 text-sm font-black text-slate-900 dark:text-white">{{ $agency->name }}</td>
-                    <td class="px-8 py-5 text-sm text-slate-500 font-medium">{{ $agency->created_at->format('M d, Y') }}
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <span
-                            class="inline-flex items-center px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20">
-                            Active
-                        </span>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="overflow-x-auto min-w-0">
+            <table class="w-full text-left min-w-[700px]">
+                <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
+                    <tr>
+                        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Node ID
+                        </th>
+                        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Business
+                            Identity</th>
+                        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                            Onboarding
+                            Date</th>
+                        <th
+                            class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
+                            Operational Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    @foreach($agencies as $agency)
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+                        <td class="px-8 py-5 text-sm font-mono text-slate-400">#{{ $agency->id }}</td>
+                        <td class="px-8 py-5 text-sm font-black text-slate-900 dark:text-white">{{ $agency->name }}</td>
+                        <td class="px-8 py-5 text-sm text-slate-500 font-medium">{{ $agency->created_at->format('M d,
+                            Y') }}
+                        </td>
+                        <td class="px-8 py-5 text-right">
+                            <span
+                                class="inline-flex items-center px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20">
+                                Active
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection
