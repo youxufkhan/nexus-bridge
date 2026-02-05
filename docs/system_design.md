@@ -60,5 +60,12 @@ All following tables MUST have an `agency_id` foreign key for scoping.
     3.  Update Models to include `BelongsTo` Agency.
     4.  (Future) Implement Global Scope `AgencyScope`.
 
-### Phase 2: Adapter Pattern (Resuming)
-*   The `WalmartAdapter` logic remains largely unchanged, as it operates on the `IntegrationConnection` level. The Factory just needs to respect the Agency scope when resolving connections.
+### Phase 2: Adapter Pattern (Refined)
+*   The `WalmartAdapter` logic has been hardened to handle nested data structures and aggregate financial charges manually when top-level summaries are absent in API payloads.
+*   Implemented a robust mapping strategy for `Order` and `OrderItem` models, ensuring data fidelity across different marketplace formats.
+
+### Phase 3: Modern UI & Agentic UX
+*   **Infrastructure**: Integrated Alpine.js for lightweight state management (Sidebar, Modals).
+*   **Navigation Architecture**: Implemented a collapsible, persistent sidebar to accommodate the expanding module list.
+*   **Data Visualization**: Upgraded index consoles to multi-dimensional layouts, grouping related metrics (e.g., Status + Timestamp, Amount + Currency).
+*   **Entity Ingress**: Developed highly specialized detail views (Show routes) to provide deep intelligence on ingested commerce data.

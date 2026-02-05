@@ -46,3 +46,14 @@ To resolve these issues, the new system must provide:
     *   Auto-sync inventory (prevent overselling).
     *   Auto-generate shipping labels via Shippo API.
 3.  **Role-Based Access**: Specialized views for "Managers" (Global View) vs. "Warehouse Staff" (Packing View only).
+
+---
+
+## 4. Current Automation Status (Phase 7 Update)
+
+The platform has successfully transitioned key manual procedures into automated routines:
+
+*   **Order Ingestion**: Manual monitoring of Walmart Seller Dashboards has been replaced by the `FetchOrdersJob` and specialized adapters (`WalmartAdapter`).
+*   **Source of Truth**: The "Master Google Sheet" has been replaced by the normalized `orders` and `order_items` tables, scoped by Agency.
+*   **Visibility**: Real-time business intelligence is provided through the revised Order Console and individual Detailed Views, eliminating the need for manual transcription.
+
