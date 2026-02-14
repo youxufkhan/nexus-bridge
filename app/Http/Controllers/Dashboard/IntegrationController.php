@@ -3,20 +3,76 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\FilterableController;
 use App\Jobs\FetchOrdersJob;
 use App\Models\IntegrationConnection;
 use Illuminate\Http\Request;
 
 class IntegrationController extends Controller
 {
-    public function index(): \Illuminate\View\View
+    use FilterableController;
+
+    public function index(Request $request): \Illuminate\View\View
     {
         $agencyId = auth()->user()->agency_id;
-        $connections = IntegrationConnection::where('agency_id', $agencyId)
-            ->with('client')
-            ->get();
 
-        return view('integrations.index', compact('connections'));
+        $query = IntegrationConnection::where('agency_id', $agencyId)
+            ->with('client');
+
+        // Filters
+        $filterConfig = [
+            [
+                'key' => 'search',
+                'type' => 'search',
+                'label' => 'Search',
+                'fields' => ['platform_type', 'client.name', 'client.code'],
+            ],
+            [
+                'key' => 'platform',
+                'type' => 'select',
+                'label' => 'Platform',
+                'field' => 'platform_type',
+                'options' => [
+                    'shopify' => 'Shopify',
+                    'walmart' => 'Walmart',
+                    'amazon' => 'Amazon',
+                    'tiktok' => 'TikTok',
+                ],
+            ],
+        ];
+
+        // Sort Config
+        $sortConfig = [
+            'default' => 'created_at',
+            'options' => [
+                [
+                    'field' => 'client_name',
+                    'label' => 'Client',
+                    'relation' => [
+                        'table' => 'clients',
+                        'foreign_key' => 'integration_connections.client_id',
+                        'owner_key' => 'clients.id',
+                        'field' => 'name'
+                    ]
+                ],
+                ['field' => 'platform_type', 'label' => 'Platform'],
+                ['field' => 'created_at', 'label' => 'Date Connected'],
+            ],
+        ];
+
+        $query = $this->applyFilters($query, $request, $filterConfig);
+        $query = $this->applySorting($query, $request, $sortConfig);
+
+        $connections = $query->paginate(15)->withQueryString();
+
+        $currentFilters = $request->only(['search', 'platform']);
+        $currentSort = [
+            'field' => $request->input('sort_by', 'created_at'),
+            'direction' => $request->input('sort_direction', 'desc'),
+        ];
+        $activeCount = $this->getActiveFiltersCount($request, $filterConfig);
+
+        return view('integrations.index', compact('connections', 'filterConfig', 'sortConfig', 'currentFilters', 'currentSort', 'activeCount'));
     }
 
     public function create(): \Illuminate\View\View

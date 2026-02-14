@@ -3,18 +3,57 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\FilterableController;
 use App\Models\Warehouse;
+use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
+    use FilterableController;
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $warehouses = Warehouse::where('agency_id', auth()->user()->agency_id)->latest()->get();
+        $agencyId = auth()->user()->agency_id;
 
-        return view('warehouses.index', compact('warehouses'));
+        $query = Warehouse::where('agency_id', $agencyId);
+
+        // Define filter configuration
+        $filterConfig = [
+            [
+                'key' => 'search',
+                'type' => 'search',
+                'label' => 'Search',
+                'fields' => ['name', 'location_code', 'address->city', 'address->country'],
+            ],
+        ];
+
+        // Define sort configuration
+        $sortConfig = [
+            'default' => 'created_at',
+            'options' => [
+                ['field' => 'name', 'label' => 'Name'],
+                ['field' => 'location_code', 'label' => 'Code'],
+                ['field' => 'created_at', 'label' => 'Date Created'],
+            ],
+        ];
+
+        // Apply filters and sorting
+        $query = $this->applyFilters($query, $request, $filterConfig);
+        $query = $this->applySorting($query, $request, $sortConfig);
+
+        $warehouses = $query->paginate(15)->withQueryString();
+
+        $currentFilters = $request->only(['search']);
+        $currentSort = [
+            'field' => $request->input('sort_by', 'created_at'),
+            'direction' => $request->input('sort_direction', 'desc'),
+        ];
+        $activeCount = $this->getActiveFiltersCount($request, $filterConfig);
+
+        return view('warehouses.index', compact('warehouses', 'filterConfig', 'sortConfig', 'currentFilters', 'currentSort', 'activeCount'));
     }
 
     /**

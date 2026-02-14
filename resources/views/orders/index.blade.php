@@ -3,6 +3,10 @@
 @section('header', 'Live Commerce Ingestion')
 
 @section('content')
+<!-- Filter and Sort Bar -->
+<x-filter-sort-bar :filters="$filterConfig" :sortOptions="$sortConfig['options']" :currentFilters="$currentFilters"
+    :currentSort="$currentSort" :activeCount="$activeCount" />
+
 <div
     class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
     <!-- Desktop Table (Hidden on Mobile) -->
@@ -10,14 +14,14 @@
         <table class="w-full text-left">
             <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Date</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Order ID</th>
+                    <x-sortable-th field="created_at" label="Date" :currentSort="$currentSort" />
+                    <x-sortable-th field="external_order_id" label="Order ID" :currentSort="$currentSort" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Customer</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Client</th>
+                    <x-sortable-th field="client_name" label="Client" :currentSort="$currentSort" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Channel</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
-                        Total</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Status</th>
+                    <x-sortable-th field="total_amount" label="Total" :currentSort="$currentSort" class="text-right"
+                        align="right" />
+                    <x-sortable-th field="status" label="Status" :currentSort="$currentSort" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
                         Actions</th>
                 </tr>

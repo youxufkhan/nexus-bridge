@@ -3,6 +3,10 @@
 @section('header', 'Enterprise Catalog')
 
 @section('content')
+<!-- Filter and Sort Bar -->
+<x-filter-sort-bar :filters="$filterConfig" :sortOptions="$sortConfig['options']" :currentFilters="$currentFilters"
+    :currentSort="$currentSort" :activeCount="$activeCount" />
+
 <div
     class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
     <!-- Desktop Table (Hidden on Mobile) -->
@@ -10,15 +14,14 @@
         <table class="w-full text-left">
             <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Product
-                        Identity</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">SKU Node</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Owner
-                        Repository</th>
+                    <x-sortable-th field="name" label="Product Identity" :currentSort="$currentSort"
+                        class="min-w-[200px]" />
+                    <x-sortable-th field="master_sku" label="SKU Node" :currentSort="$currentSort" />
+                    <x-sortable-th field="client_name" label="Owner Repository" :currentSort="$currentSort" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Inventory
                         Status</th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Base Unit
-                        Price</th>
+                    <x-sortable-th field="base_price" label="Base Unit Price" :currentSort="$currentSort"
+                        class="text-right" align="right" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
                         Actions</th>
                 </tr>

@@ -69,3 +69,8 @@ All following tables MUST have an `agency_id` foreign key for scoping.
 *   **Navigation Architecture**: Implemented a collapsible, persistent sidebar to accommodate the expanding module list.
 *   **Data Visualization**: Upgraded index consoles to multi-dimensional layouts, grouping related metrics (e.g., Status + Timestamp, Amount + Currency).
 *   **Entity Ingress**: Developed highly specialized detail views (Show routes) to provide deep intelligence on ingested commerce data.
+### Phase 4: Enhanced Data Exploration (Filtering & Sorting)
+*   **Infrastructure**: Created a reusable `FilterableController` trait and `FilterSortBar` component.
+*   **Filtering**: Implemented context-aware filters (Search, Date Ranges, Status, Relations) across all major resource indices.
+*   **Sorting**: Added column-based sorting with visual indicators and relationship support.
+*   **UX**: Designed a mobile-first, collapsible filter panel with URL persistence for shareable views.

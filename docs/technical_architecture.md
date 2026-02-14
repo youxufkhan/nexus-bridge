@@ -42,6 +42,8 @@ erDiagram
 
 ## 4. Frontend Architecture
 
-- **Engine**: Tailwind CSS (JIT) + Vanilla JS.
+- **Engine**: Tailwind CSS (JIT) + Vanilla JS + Alpine.js.
 - **Theme System**: Class-based `darkMode` with `localStorage` persistence.
+- **Components**: Reusable Blade components (`x-filter-sort-bar`, `x-sortable-th`) for consistent UI patterns.
 - **Aesthetic**: Custom "Outfit" typography bundle with glassmorphism components and a zero-gap sidebar hover state.
+

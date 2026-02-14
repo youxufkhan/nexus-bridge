@@ -14,6 +14,10 @@
 @endsection
 
 @section('content')
+<!-- Filter and Sort Bar -->
+<x-filter-sort-bar :filters="$filterConfig" :sortOptions="$sortConfig['options']" :currentFilters="$currentFilters"
+    :currentSort="$currentSort" :activeCount="$activeCount" />
+
 <div
     class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
     <!-- Desktop Table (Hidden on Mobile) -->
@@ -21,12 +25,9 @@
         <table class="w-full text-left">
             <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Team Member
-                    </th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Authority
-                    </th>
-                    <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Digital Node
-                        (Email)</th>
+                    <x-sortable-th field="name" label="Team Member" :currentSort="$currentSort" class="min-w-[200px]" />
+                    <x-sortable-th field="role" label="Authority" :currentSort="$currentSort" />
+                    <x-sortable-th field="email" label="Digital Node (Email)" :currentSort="$currentSort" />
                     <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 text-right">
                         Auth Status</th>
                 </tr>
@@ -93,5 +94,9 @@
         </div>
         @endforeach
     </div>
+</div>
+
+<div class="mt-8">
+    {{ $users->links() }}
 </div>
 @endsection

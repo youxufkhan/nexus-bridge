@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\FilterableController;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Warehouse;
@@ -10,17 +11,67 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    public function index()
+    use FilterableController;
+
+    public function index(Request $request)
     {
         $agencyId = auth()->user()->agency_id;
 
         // Fetch products with their related inventory and warehouse data
-        $products = Product::where('agency_id', $agencyId)
+        $query = Product::where('agency_id', $agencyId)
             ->with(['inventories.warehouse'])
-            ->latest()
-            ->paginate(15);
+            ->withSum('inventories', 'quantity_on_hand');
 
-        return view('inventories.index', compact('products'));
+        // Define filter configuration
+        $filterConfig = [
+            [
+                'key' => 'search',
+                'type' => 'search',
+                'label' => 'Search',
+                'fields' => ['name', 'master_sku'],
+            ],
+            [
+                'key' => 'warehouse_id',
+                'type' => 'relation',
+                'label' => 'Warehouse',
+                'relation' => 'inventories',
+                'field' => 'warehouse_id',
+                'options' => Warehouse::where('agency_id', $agencyId)->pluck('name', 'id')->toArray(),
+            ]
+        ];
+
+        // Define sort configuration
+        $sortConfig = [
+            'default' => 'created_at',
+            'options' => [
+                ['field' => 'name', 'label' => 'Product Name'],
+                ['field' => 'master_sku', 'label' => 'SKU'],
+                ['field' => 'inventories_sum_quantity_on_hand', 'label' => 'Total Stock'],
+                ['field' => 'created_at', 'label' => 'Date Added'],
+            ],
+        ];
+
+        // Apply filters and sorting
+        $query = $this->applyFilters($query, $request, $filterConfig);
+        $query = $this->applySorting($query, $request, $sortConfig);
+
+        $products = $query->paginate(15)->withQueryString();
+
+        $currentFilters = $request->only(['search', 'warehouse_id']);
+        $currentSort = [
+            'field' => $request->input('sort_by', 'created_at'),
+            'direction' => $request->input('sort_direction', 'desc'),
+        ];
+        $activeCount = $this->getActiveFiltersCount($request, $filterConfig);
+
+        return view('inventories.index', compact(
+            'products',
+            'filterConfig',
+            'sortConfig',
+            'currentFilters',
+            'currentSort',
+            'activeCount'
+        ));
     }
 
     public function adjust(Product $product)
@@ -57,20 +108,20 @@ class InventoryController extends Controller
                 ->firstOrFail();
 
             Inventory::updateOrCreate(
-                [
-                    'agency_id' => $agencyId,
-                    'product_id' => $product->id,
-                    'warehouse_id' => $warehouse->id,
-                ],
-                [
-                    'quantity_on_hand' => $adjustment['quantity_on_hand'],
-                    'quantity_reserved' => 0, // Default for manual adjustment
-                ]
+            [
+                'agency_id' => $agencyId,
+                'product_id' => $product->id,
+                'warehouse_id' => $warehouse->id,
+            ],
+            [
+                'quantity_on_hand' => $adjustment['quantity_on_hand'],
+                'quantity_reserved' => 0, // Default for manual adjustment
+            ]
             );
         }
 
         return redirect()->route('dashboard.inventories.index')
-            ->with('success', 'Inventory levels adjusted for '.$product->name);
+            ->with('success', 'Inventory levels adjusted for ' . $product->name);
     }
 
     public function wizard()
@@ -92,9 +143,9 @@ class InventoryController extends Controller
 
         $products = Product::where('agency_id', $agencyId)
             ->where(function ($q) use ($query) {
-                $q->where('name', 'ILIKE', "%{$query}%")
-                    ->orWhere('master_sku', 'ILIKE', "%{$query}%");
-            })
+            $q->where('name', 'ILIKE', "%{$query}%")
+                ->orWhere('master_sku', 'ILIKE', "%{$query}%");
+        })
             ->select('id', 'name', 'master_sku')
             ->limit(10)
             ->get();
@@ -157,15 +208,15 @@ class InventoryController extends Controller
 
         // Get or create inventory record
         $inventory = Inventory::firstOrCreate(
-            [
-                'agency_id' => $agencyId,
-                'product_id' => $product->id,
-                'warehouse_id' => $warehouse->id,
-            ],
-            [
-                'quantity_on_hand' => 0,
-                'quantity_reserved' => 0,
-            ]
+        [
+            'agency_id' => $agencyId,
+            'product_id' => $product->id,
+            'warehouse_id' => $warehouse->id,
+        ],
+        [
+            'quantity_on_hand' => 0,
+            'quantity_reserved' => 0,
+        ]
         );
 
         // Calculate new quantity
@@ -175,7 +226,7 @@ class InventoryController extends Controller
         if ($newQuantity < 0) {
             return response()->json([
                 'success' => false,
-                'message' => 'Adjustment would result in negative inventory. Current stock: '.$inventory->quantity_on_hand,
+                'message' => 'Adjustment would result in negative inventory. Current stock: ' . $inventory->quantity_on_hand,
             ], 422);
         }
 

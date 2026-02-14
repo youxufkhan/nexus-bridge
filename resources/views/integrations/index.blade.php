@@ -16,6 +16,9 @@
         </a>
     </div>
 
+    <x-filter-sort-bar :filters="$filterConfig" :sortOptions="$sortConfig['options']" :currentFilters="$currentFilters"
+        :currentSort="$currentSort" :activeCount="$activeCount" />
+
     <div
         class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
         <!-- Desktop Table (Hidden on Mobile) -->
@@ -23,10 +26,9 @@
             <table class="w-full text-left">
                 <thead class="bg-slate-50/50 dark:bg-slate-800/30 border-b border-slate-200 dark:border-slate-800">
                     <tr>
-                        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Node
-                            Cluster</th>
-                        <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Network
-                            Type</th>
+                        <x-sortable-th field="client_name" label="Node Cluster" :currentSort="$currentSort"
+                            class="min-w-[200px]" />
+                        <x-sortable-th field="platform_type" label="Network Type" :currentSort="$currentSort" />
                         <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Protocol
                             Status</th>
                         <th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Telemetry
@@ -70,10 +72,12 @@
                             <div class="space-y-1">
                                 <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Orders:
                                     <span class="text-slate-600 dark:text-slate-300">{{
-                                        $connection->settings['last_order_sync'] ?? 'Never' }}</span></div>
+                                        $connection->settings['last_order_sync'] ?? 'Never' }}</span>
+                                </div>
                                 <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Catalog:
                                     <span class="text-slate-600 dark:text-slate-300">{{
-                                        $connection->settings['last_product_sync'] ?? 'Never' }}</span></div>
+                                        $connection->settings['last_product_sync'] ?? 'Never' }}</span>
+                                </div>
                             </div>
                         </td>
                         <td class="px-8 py-6 text-right" x-data="{ showModal: false }">
@@ -323,5 +327,10 @@
             @endforelse
         </div>
     </div>
+</div>
+
+<div class="mt-8">
+    {{ $connections->links() }}
+</div>
 </div>
 @endsection
