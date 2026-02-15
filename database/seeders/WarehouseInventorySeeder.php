@@ -14,26 +14,36 @@ class WarehouseInventorySeeder extends Seeder
     public function run(): void
     {
         $agency = Agency::first() ?? Agency::factory()->create(['name' => 'Demo Agency']);
-        $warehouse = Warehouse::factory()->create([
+
+        $warehouse = Warehouse::firstOrCreate(
+        ['location_code' => 'MDC-01'],
+        [
             'agency_id' => $agency->id,
             'name' => 'Main Distribution Center',
-            'location_code' => 'MDC-01',
-        ]);
+        ]
+        );
 
-        $client = Client::first() ?? Client::factory()->create(['agency_id' => $agency->id]);
+        $client = Client::firstOrCreate(
+        ['agency_id' => $agency->id],
+        ['name' => 'Default Client', 'code' => 'DEF-001']
+        );
 
-        $product = Product::factory()->create([
+        $product = Product::firstOrCreate(
+        ['master_sku' => 'QP-X1'],
+        [
             'agency_id' => $agency->id,
             'client_id' => $client->id,
             'name' => 'Quantum Processor X1',
-            'master_sku' => 'QP-X1',
-        ]);
+        ]
+        );
 
-        Inventory::factory()->create([
+        Inventory::updateOrCreate(
+        [
             'agency_id' => $agency->id,
             'product_id' => $product->id,
             'warehouse_id' => $warehouse->id,
-            'quantity_on_hand' => 500,
-        ]);
+        ],
+        ['quantity_on_hand' => 500]
+        );
     }
 }
