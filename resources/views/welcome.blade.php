@@ -59,9 +59,11 @@
                     class="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 blur-3xl">
                 </div>
                 <div
-                    class="relative bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden aspect-video flex items-center justify-center bg-slate-50 border-8 border-white">
-                    <div class="text-indigo-600 text-6xl font-bold opacity-10 select-none">DASHBOARD_MOCKUP</div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white/20"></div>
+                    class="relative bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden aspect-video border-8 border-white group">
+                    <img src="{{ asset('images/dashboard-mockup.png') }}" 
+                         alt="Nexus Bridge Dashboard Interface" 
+                         class="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent pointer-events-none"></div>
                 </div>
             </div>
         </div>
